@@ -18,7 +18,7 @@ import de.spillner.sales.exception.OrderFormatException;
 public class RegExOrderParser
     implements OrderParser
 {
-  private static final String DEFAULT_REGEX = "(\\d+)([^\\d]+)(\\d+[\\.\\d]*)";
+  private static final String DEFAULT_REGEX = "^(\\d+)\\w*([a-zA-Z]]+)\\w*(\\d+[\\.\\d]*)$";
 
   public static final RegExOrderParser DEFAULT = new RegExOrderParser( DEFAULT_REGEX );
 

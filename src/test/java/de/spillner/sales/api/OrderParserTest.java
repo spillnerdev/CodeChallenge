@@ -85,5 +85,9 @@ class OrderParserTest
 
     String tooShort = "1 15.23";
     assertThrowsExactly( OrderFormatException.class, () -> parser.parse( tooShort ) );
+
+    String whitespaces = "1                           15.23";
+    assertThrowsExactly( OrderFormatException.class, () -> parser.parse( whitespaces ) );
+
   }
 }
