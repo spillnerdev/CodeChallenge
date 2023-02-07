@@ -2,12 +2,12 @@ package de.spillner.sales.api;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Collection;
 import java.util.Map;
 import java.util.stream.Stream;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -78,10 +78,12 @@ class OrderParserTest
   void testMalformedOrderString( OrderParser parser )
   {
     String orderString = "Some gibberish which must cause an exception";
-    Assertions.assertThrowsExactly( OrderFormatException.class, () -> parser.parse( orderString ) );
+    assertThrowsExactly( OrderFormatException.class, () -> parser.parse( orderString ) );
 
     String other = "1 imported box of chocolate at 4.20 with some appendix";
-    Assertions.assertThrowsExactly( OrderFormatException.class, () -> parser.parse( other ) );
+    assertThrowsExactly( OrderFormatException.class, () -> parser.parse( other ) );
 
+    String tooShort = "1 15.23";
+    assertThrowsExactly( OrderFormatException.class, () -> parser.parse( tooShort ) );
   }
 }
