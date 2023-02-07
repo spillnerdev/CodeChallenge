@@ -79,5 +79,9 @@ class OrderParserTest
   {
     String orderString = "Some gibberish which must cause an exception";
     Assertions.assertThrowsExactly( OrderFormatException.class, () -> parser.parse( orderString ) );
+
+    String other = "1 imported box of chocolate at 4.20 with some appendix";
+    Assertions.assertThrowsExactly( OrderFormatException.class, () -> parser.parse( other ) );
+
   }
 }
