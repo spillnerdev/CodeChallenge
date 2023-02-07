@@ -3,6 +3,7 @@ package de.spillner.sales.api;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.stream.Stream;
 
@@ -55,6 +56,14 @@ class OrderParserTest
     stringExpectedMap.entrySet().stream()
         .map( e -> Map.entry( parser.parse( e.getKey() ), e.getValue() ) )
         .forEach( e -> assertThat( e.getKey(), equalTo( e.getValue() ) ) );
+  }
+
+  @ParameterizedTest
+  @MethodSource( "validSource" )
+  void testParseBulk( OrderParser parser, Map<String, Order> stringExpectedMap )
+  {
+    Collection<Order> orders = parser.parse( stringExpectedMap.keySet() );
+    assertThat( orders, containsInAnyOrder( stringExpectedMap.values().toArray() ) );
   }
 
   private static Stream<Arguments> malformedSource()
