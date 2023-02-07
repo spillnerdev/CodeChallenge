@@ -18,7 +18,7 @@ public record Receipt(Collection<InvoicePosition> positions, BigDecimal grossTot
           Total: %.2f
           """;
 
-  private static final String POSITION_FORMAT = "%d %s %.2f";
+  private static final String POSITION_FORMAT = "%d %s: %.2f";
 
   @Override
   public String toString()

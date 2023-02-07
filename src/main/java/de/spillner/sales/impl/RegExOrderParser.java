@@ -18,7 +18,7 @@ import de.spillner.sales.exception.OrderFormatException;
 public class RegExOrderParser
     implements OrderParser
 {
-  private static final String DEFAULT_REGEX = "^(\\d+)\\w*([a-zA-Z]]+)\\w*(\\d+[\\.\\d]*)$";
+  private static final String DEFAULT_REGEX = "^(\\d)+\\s([a-zA-Z ]+)at\\s(\\d+(\\.\\d+)*)$";
 
   public static final RegExOrderParser DEFAULT = new RegExOrderParser( DEFAULT_REGEX );
 
@@ -44,7 +44,7 @@ public class RegExOrderParser
     }
 
     var amount = new Amount( Integer.parseInt( matcher.group( 1 ) ) );
-    var name = matcher.group( 2 ).trim().replace( " at", "" );
+    var name = matcher.group( 2 ).trim();
     var pricePerUnit = new BigDecimal( matcher.group( 3 ) ).setScale( 2, RoundingMode.HALF_UP );
     return new Order( amount, name, pricePerUnit );
   }

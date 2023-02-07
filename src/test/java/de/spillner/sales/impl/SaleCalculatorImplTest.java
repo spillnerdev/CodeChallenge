@@ -25,7 +25,7 @@ class SaleCalculatorImplTest
 {
   private Map<TaxClass, TaxRate> currentTaxRate;
 
-  private Collection<String> exemptGoods = List.of( "chocolate", "pills", "book" );
+  private final Collection<String> exemptGoods = List.of( "chocolate", "pills", "book" );
 
   @BeforeEach
   void setUp()
@@ -54,11 +54,10 @@ class SaleCalculatorImplTest
         """
             1 book: 12.49
             1 music CD: 16.49
-            1 chocolate bar 0.85
+            1 chocolate bar: 0.85
             Sales Taxes: 1.50
             Total: 29.83
             """
-
     ) );
   }
 }
