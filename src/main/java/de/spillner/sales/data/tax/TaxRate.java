@@ -6,5 +6,6 @@ package de.spillner.sales.data.tax;
  *
  * @author Lukas Spillner
  */
-public record TaxRate(int rate) {
+public record TaxRate(int rate)
+{
 }

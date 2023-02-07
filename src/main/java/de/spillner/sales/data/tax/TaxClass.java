@@ -11,7 +11,7 @@ package de.spillner.sales.data.tax;
  * PS: I rally wanted to point out that the byte-pattern for "taxed normally" and "imported"
  * match the use-case of the task perfectly.
  * 10 = 0b1010
- *  5 = 0b0101
+ * 5 = 0b0101
  * 15 = 0b1111
  * This means if we wanted to get the total tax we could technically use bitwise OR for something like this:
  * <pre>
@@ -31,8 +31,9 @@ package de.spillner.sales.data.tax;
  *
  * @author Lukas Spillner
  */
-public enum TaxClass {
-    REDUCED, //REDUCED may not be taxed in the current task but is subject to change.
-    IMPORTED,
-    NORMAL
+public enum TaxClass
+{
+  REDUCED, //REDUCED may not be taxed in the current task but is subject to change.
+  IMPORTED,
+  NORMAL
 }

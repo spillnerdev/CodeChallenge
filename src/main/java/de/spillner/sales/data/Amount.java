@@ -8,5 +8,6 @@ package de.spillner.sales.data;
  *
  * @author Lukas Spillner
  */
-public record Amount(int amount) {
+public record Amount(int amount)
+{
 }

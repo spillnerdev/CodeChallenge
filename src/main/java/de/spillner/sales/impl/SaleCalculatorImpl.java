@@ -10,28 +10,30 @@ import java.util.Collection;
 import java.util.Map;
 
 /**
- *
  * @author Lukas Spillner
  * TODO: Docs!!!
  */
 public class SaleCalculatorImpl
-        implements SaleCalculator {
+    implements SaleCalculator
+{
 
-    private final OrderParser parser;
+  private final OrderParser parser;
 
-    private final Map<TaxClass, TaxRate> taxRateMap;
+  private final Map<TaxClass, TaxRate> taxRateMap;
 
-    private final Collection<String> exemptGoods;
+  private final Collection<String> exemptGoods;
 
-    public SaleCalculatorImpl(OrderParser parser, Map<TaxClass, TaxRate> taxRateMap,
-            Collection<String> exemptGoods) {
-        this.parser = parser;
-        this.taxRateMap = taxRateMap;
-        this.exemptGoods = exemptGoods;
-    }
+  public SaleCalculatorImpl( OrderParser parser, Map<TaxClass, TaxRate> taxRateMap,
+      Collection<String> exemptGoods )
+  {
+    this.parser = parser;
+    this.taxRateMap = taxRateMap;
+    this.exemptGoods = exemptGoods;
+  }
 
-    @Override
-    public Receipt calculateSale(Collection<String> orders) {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
+  @Override
+  public Receipt calculateSale( Collection<String> orders )
+  {
+    throw new UnsupportedOperationException( "Not yet implemented" );
+  }
 }

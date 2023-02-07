@@ -8,10 +8,12 @@ import java.math.BigDecimal;
  *
  * @author Lukas Spillner
  */
-public record Order(Amount amount, String goodName, BigDecimal pricePerUnit) {
+public record Order(Amount amount, String goodName, BigDecimal pricePerUnit)
+{
 
-    public static Order of(int amount, String name, double pricePerUnit) {
-        return new Order(new Amount(amount), name, BigDecimal.valueOf(pricePerUnit));
-    }
+  public static Order of( int amount, String name, double pricePerUnit )
+  {
+    return new Order( new Amount( amount ), name, BigDecimal.valueOf( pricePerUnit ) );
+  }
 
 }
