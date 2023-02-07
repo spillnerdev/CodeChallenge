@@ -8,7 +8,7 @@ package de.spillner.sales.data.tax;
  * - Being taxed at a reduced rate (0% in this task)
  * - Be imported (5% in this task)
  *
- * PS: I rally wanted to point out that the byte-pattern for "taxed normally" and "imported"
+ * PS: I really wanted to point out that the byte-pattern for "taxed normally" and "imported"
  * match the use-case of the task perfectly.
  * 10 = 0b1010
  * 5 = 0b0101
