@@ -27,6 +27,10 @@ public class SplitOrderParser
     var amount = parseInternal( () -> split[ 0 ], v -> v.matches( "\\d+" ), v -> new Amount( Integer.parseInt( v ) ) );
     // Assumption: String always ends with "at ${pricePerUnit}"
     var name = parseName( split );
+    if ( name.isBlank() )
+    {
+      throw new OrderFormatException( "Name may not be blank." );
+    }
     //Assumption last value is always the price perUnit
     var pricePerUnit = parseInternal( () -> split[ split.length - 1 ], v -> v.matches( "\\d+[.\\d]*" ),
         v -> new BigDecimal( v ).setScale( 2, RoundingMode.HALF_UP ) );
