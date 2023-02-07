@@ -14,7 +14,7 @@ public class RegExOrderParser
         implements OrderParser {
     private static final String DEFAULT_REGEX = "(\\d+)([^\\d]+)(\\d+[\\.\\d]*)";
 
-    private static final RegExOrderParser DEFAULT = new RegExOrderParser(DEFAULT_REGEX);
+    public static final RegExOrderParser DEFAULT = new RegExOrderParser(DEFAULT_REGEX);
 
     private final Pattern orderPattern;
 
