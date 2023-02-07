@@ -36,7 +36,7 @@ public class RegExOrderParser
   {
     Matcher matcher = orderPattern.matcher( orderString );
 
-    if ( !matcher.find() )
+    if ( !matcher.matches() )
     {
       throw new OrderFormatException(
           "The order string {%s} does not adhere to the expected format of the regex: {%s}".formatted( orderString,
