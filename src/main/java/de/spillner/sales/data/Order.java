@@ -1,6 +1,7 @@
 package de.spillner.sales.data;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 /**
  * An order is the amount of a certain good, the price per unit (before tax).
@@ -13,7 +14,8 @@ public record Order(Amount amount, String goodName, BigDecimal pricePerUnit)
 
   public static Order of( int amount, String name, double pricePerUnit )
   {
-    return new Order( new Amount( amount ), name, BigDecimal.valueOf( pricePerUnit ) );
+    return new Order( new Amount( amount ), name,
+        BigDecimal.valueOf( pricePerUnit ).setScale( 2, RoundingMode.HALF_UP ) );
   }
 
 }

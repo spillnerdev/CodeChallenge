@@ -6,11 +6,13 @@ import static org.hamcrest.Matchers.*;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import de.spillner.sales.data.Order;
+import de.spillner.sales.exception.OrderFormatException;
 import de.spillner.sales.impl.RegExOrderParser;
 
 /**
@@ -53,5 +55,20 @@ class OrderParserTest
     stringExpectedMap.entrySet().stream()
         .map( e -> Map.entry( parser.parse( e.getKey() ), e.getValue() ) )
         .forEach( e -> assertThat( e.getKey(), equalTo( e.getValue() ) ) );
+  }
+
+  private static Stream<Arguments> malformedSource()
+  {
+    return Stream.of(
+        Arguments.of( RegExOrderParser.DEFAULT )
+    );
+  }
+
+  @ParameterizedTest
+  @MethodSource( "malformedSource" )
+  void testMalformedOrderString( OrderParser parser )
+  {
+    String orderString = "Some gibberish which must cause an exception";
+    Assertions.assertThrowsExactly( OrderFormatException.class, () -> parser.parse( orderString ) );
   }
 }
