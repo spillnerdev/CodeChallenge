@@ -15,6 +15,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import de.spillner.sales.data.Order;
 import de.spillner.sales.exception.OrderFormatException;
 import de.spillner.sales.impl.RegExOrderParser;
+import de.spillner.sales.impl.SplitOrderParser;
 
 /**
  * @author Lukas Spillner
@@ -24,28 +25,26 @@ class OrderParserTest
 
   private static Stream<Arguments> validSource()
   {
+    Map<String, Order> testSetOne = Map.of(
+        "1 book at 12.49", Order.of( 1, "book", 12.49 ),
+        "1 music CD at 14.99", Order.of( 1, "music CD", 14.99 ),
+        "1 chocolate bar at 0.85", Order.of( 1, "chocolate bar", 0.85 )
+    );
+
+    Map<String, Order> testSetTwo = Map.of(
+        "2 potatoes at 52", Order.of( 2, "potatoes", 52.00 )
+    );
+    Map<String, Order> testSetThree = Map.of(
+        "1 imported box of chocolate at 10.00", Order.of( 1, "imported box of chocolate", 10.00 ),
+        "1 imported bottle of perfume at 47.00", Order.of( 1, "imported bottle of perfume", 47.00 )
+    );
     return Stream.of(
-        Arguments.of(
-            RegExOrderParser.DEFAULT,
-            Map.of(
-                "1 book at 12.49", Order.of( 1, "book", 12.49 ),
-                "1 music CD at 14.99", Order.of( 1, "music CD", 14.99 ),
-                "1 chocolate bar at 0.85", Order.of( 1, "chocolate bar", 0.85 )
-            )
-        ),
-        Arguments.of(
-            RegExOrderParser.DEFAULT,
-            Map.of(
-                "2 potatoes at 52", Order.of( 2, "potatoes", 52.00 )
-            )
-        ),
-        Arguments.of(
-            RegExOrderParser.DEFAULT,
-            Map.of(
-                "1 imported box of chocolate at 10.00", Order.of( 1, "imported box of chocolate", 10.00 ),
-                "1 imported bottle of perfume at 47.00", Order.of( 1, "imported bottle of perfume", 47.00 )
-            )
-        )
+        Arguments.of( RegExOrderParser.DEFAULT, testSetOne ),
+        Arguments.of( RegExOrderParser.DEFAULT, testSetTwo ),
+        Arguments.of( RegExOrderParser.DEFAULT, testSetThree ),
+        Arguments.of( new SplitOrderParser(), testSetOne ),
+        Arguments.of( new SplitOrderParser(), testSetTwo ),
+        Arguments.of( new SplitOrderParser(), testSetThree )
     );
   }
 
@@ -69,7 +68,8 @@ class OrderParserTest
   private static Stream<Arguments> malformedSource()
   {
     return Stream.of(
-        Arguments.of( RegExOrderParser.DEFAULT )
+        Arguments.of( RegExOrderParser.DEFAULT ),
+        Arguments.of( new SplitOrderParser() )
     );
   }
 
