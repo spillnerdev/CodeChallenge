@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import de.spillner.sales.api.SaleCalculator;
@@ -23,9 +24,21 @@ public class SaleCalculatorImpl
   private static final BigDecimal ONE_HUNDRED = BigDecimal.valueOf( 100L, 0 );
   private static final BigDecimal SALES_INCREMENT = BigDecimal.valueOf( 0.05 );
 
+  private static final Collection<String> DEFAULT_EXEMPT_GOODS = List.of( "chocolate", "pills", "book" );
+  private static final Map<TaxClass, TaxRate> DEFAULT_TAX_RATES = Map.of(
+      TaxClass.REDUCED, new TaxRate( 0 ),
+      TaxClass.IMPORTED, new TaxRate( 5 ),
+      TaxClass.NORMAL, new TaxRate( 10 )
+  );
+
   private final Map<TaxClass, TaxRate> taxRateMap;
 
   private final Collection<String> exemptGoods;
+
+  public SaleCalculatorImpl()
+  {
+    this( DEFAULT_TAX_RATES, DEFAULT_EXEMPT_GOODS );
+  }
 
   public SaleCalculatorImpl( Map<TaxClass, TaxRate> taxRateMap,
       Collection<String> exemptGoods )
