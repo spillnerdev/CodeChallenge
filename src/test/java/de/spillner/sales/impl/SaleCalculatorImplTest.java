@@ -9,9 +9,12 @@ import java.util.Collection;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import de.spillner.sales.api.SaleCalculator;
 import de.spillner.sales.data.Order;
@@ -37,29 +40,67 @@ class SaleCalculatorImplTest
     currentTaxRate.put( TaxClass.NORMAL, new TaxRate( 10 ) );
   }
 
-  @Test
-  void testBasicCalculation()
+  private static Stream<Arguments> basicCalcSource()
   {
-    List<Order> orders = List.of(
-        Order.of( 1, "book", 12.49 ),
-        Order.of( 1, "music CD", 14.99 ),
-        Order.of( 1, "chocolate bar", 0.85 )
+    return Stream.of(
+        Arguments.of(
+            List.of(
+                Order.of( 1, "imported box of chocolates", 10.00 ),
+                Order.of( 1, "imported bottle of perfume", 47.50 )
+            ), 65.15
+            , 7.65
+            , """
+                1 imported box of chocolates: 10.50
+                1 imported bottle of perfume: 54.65
+                Sales Taxes: 7.65
+                Total: 65.15
+                """
+        ),
+        Arguments.of(
+            List.of(
+                Order.of( 1, "book", 12.49 ),
+                Order.of( 1, "music CD", 14.99 ),
+                Order.of( 1, "chocolate bar", 0.85 )
+            ), 29.83
+            , 1.50
+            , """
+                1 book: 12.49
+                1 music CD: 16.49
+                1 chocolate bar: 0.85
+                Sales Taxes: 1.50
+                Total: 29.83
+                """
+        ),
+        Arguments.of(
+            List.of(
+                Order.of( 1, "imported bottle of perfume", 27.99 ),
+                Order.of( 1, "bottle of perfume", 18.99 ),
+                Order.of( 1, "packet of headache pills", 9.75 ),
+                Order.of( 1, "box of imported chocolates", 11.25 )
+            ), 74.68
+            , 6.70
+            , """
+                1 imported bottle of perfume: 32.19
+                1 bottle of perfume: 20.89
+                1 packet of headache pills: 9.75
+                1 box of imported chocolates: 11.85
+                Sales Taxes: 6.70
+                Total: 74.68
+                """
+        )
     );
+  }
 
+  @ParameterizedTest
+  @MethodSource( "basicCalcSource" )
+  void testBasicCalculation( Collection<Order> orders, double grossTotal, double totalTax, String expectedReceipt )
+  {
     SaleCalculator calc = new SaleCalculatorImpl( currentTaxRate, exemptGoods );
     Receipt receipt = calc.calculateSale( orders );
 
     assertThat( receipt, notNullValue() );
-    assertThat( receipt.grossTotal(), equalTo( BigDecimal.valueOf( 29.83 ).setScale( 2, RoundingMode.HALF_UP ) ) );
-    assertThat( receipt.totalTax(), equalTo( BigDecimal.valueOf( 1.50 ).setScale( 2, RoundingMode.CEILING ) ) );
-    assertThat( receipt.toString(), equalTo(
-        """
-            1 book: 12.49
-            1 music CD: 16.49
-            1 chocolate bar: 0.85
-            Sales Taxes: 1.50
-            Total: 29.83
-            """
-    ) );
+    assertThat( receipt.grossTotal(), equalTo( BigDecimal.valueOf( grossTotal ).setScale( 2, RoundingMode.HALF_UP ) ) );
+    assertThat( receipt.totalTax(), equalTo( BigDecimal.valueOf( totalTax ).setScale( 2, RoundingMode.CEILING ) ) );
+    assertThat( receipt.toString(), equalTo( expectedReceipt ) );
   }
 }
