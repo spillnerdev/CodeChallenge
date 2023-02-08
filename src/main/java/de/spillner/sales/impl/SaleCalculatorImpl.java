@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
-import de.spillner.sales.api.OrderParser;
 import de.spillner.sales.api.SaleCalculator;
 import de.spillner.sales.data.InvoicePosition;
 import de.spillner.sales.data.Order;
@@ -21,32 +20,26 @@ import de.spillner.sales.data.tax.TaxRate;
 public class SaleCalculatorImpl
     implements SaleCalculator
 {
-
-  private final OrderParser parser;
-
   private final Map<TaxClass, TaxRate> taxRateMap;
 
   private final Collection<String> exemptGoods;
 
-  public SaleCalculatorImpl( OrderParser parser, Map<TaxClass, TaxRate> taxRateMap,
+  public SaleCalculatorImpl( Map<TaxClass, TaxRate> taxRateMap,
       Collection<String> exemptGoods )
   {
-    this.parser = parser;
     this.taxRateMap = taxRateMap;
     this.exemptGoods = exemptGoods;
   }
 
   @Override
-  public Receipt calculateSale( Collection<String> orders )
+  public Receipt calculateSale( Collection<Order> orders )
   {
-    var parsed = parser.parse( orders );
-
     var total = BigDecimal.ZERO;
     var tax = BigDecimal.ZERO;
 
     var positions = new ArrayList<InvoicePosition>();
 
-    for ( var order : parsed )
+    for ( var order : orders )
     {
       var rate = getTaxRateForOder( order );
 

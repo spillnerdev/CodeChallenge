@@ -14,6 +14,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import de.spillner.sales.api.SaleCalculator;
+import de.spillner.sales.data.Order;
 import de.spillner.sales.data.Receipt;
 import de.spillner.sales.data.tax.TaxClass;
 import de.spillner.sales.data.tax.TaxRate;
@@ -39,13 +40,14 @@ class SaleCalculatorImplTest
   @Test
   void testBasicCalculation()
   {
-    String order = """
-        1 book at 12.49
-        1 music CD at 14.99
-        1 chocolate bar at 0.85
-        """;
-    SaleCalculator calc = new SaleCalculatorImpl( RegExOrderParser.DEFAULT, currentTaxRate, exemptGoods );
-    Receipt receipt = calc.calculateSale( order );
+    List<Order> orders = List.of(
+        Order.of( 1, "book", 12.49 ),
+        Order.of( 1, "music CD", 14.99 ),
+        Order.of( 1, "chocolate bar", 0.85 )
+    );
+
+    SaleCalculator calc = new SaleCalculatorImpl( currentTaxRate, exemptGoods );
+    Receipt receipt = calc.calculateSale( orders );
 
     assertThat( receipt, notNullValue() );
     assertThat( receipt.grossTotal(), equalTo( BigDecimal.valueOf( 29.83 ).setScale( 2, RoundingMode.HALF_UP ) ) );
