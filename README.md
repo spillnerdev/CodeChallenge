@@ -82,3 +82,8 @@ like `gradle :run --args=/my/path/to/file.txt`.
 ### Run tests
 
 1. run `gradle :test` or `./gradlew :test`
+
+### Build a deployable jar
+
+1. run `gradle :build`. The resulting jar can be found in `./build/libs/`
+2. run the jar `$JAVA_HOME/bin/java -jar ./Order.txt`
