@@ -21,17 +21,22 @@ public class Main
 {
   public static void main( String[] args ) throws IOException
   {
+    // Very (and I mean **very**) basic CLI capabilities to actually use the application.
+    // Everything else has been designed as some sort of library to be embedded into another application.
     if ( args.length == 0 )
     {
       throw new IllegalStateException( "Must specify a file with items!" );
     }
 
+    // Get the file path...
     Path path = Paths.get( args[ 0 ] );
+    // ... and read all lines
     try ( Stream<String> lines = Files.lines( path, StandardCharsets.UTF_8 ) )
     {
-
+      // Parse them to Order objects
       List<Order> orders = lines.map( RegExOrderParser.DEFAULT::parse ).toList();
 
+      // Calculate and print the results with default values.
       SaleCalculator calculator = new SaleCalculatorImpl();
       Receipt receipt = calculator.calculateSale( orders );
       System.out.println( receipt );

@@ -13,6 +13,11 @@ import de.spillner.sales.data.Order;
 import de.spillner.sales.exception.OrderFormatException;
 
 /**
+ * This class is unused and servers no real purpose other than to show that there are several other solutions to
+ * parse Strings into the desired format of {@link Order}s.
+ * And I had fun implementing it. Since this is in my free-spare time I decided to have some fun and also implement it.
+ * For a real-world application see {@link RegExOrderParser}
+ *
  * @author Lukas Spillner
  */
 public class SplitOrderParser

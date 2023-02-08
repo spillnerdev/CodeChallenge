@@ -21,6 +21,12 @@ application {
     mainClass = "de.spillner.Main"
 }
 
+jar {
+    manifest {
+        attributes('Main-Class': 'de.spillner.Main')
+    }
+}
+
 test {
     useJUnitPlatform()
 }
