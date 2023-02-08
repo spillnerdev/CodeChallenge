@@ -20,6 +20,9 @@ import de.spillner.sales.data.tax.TaxRate;
 public class SaleCalculatorImpl
     implements SaleCalculator
 {
+  private static final BigDecimal ONE_HUNDRED = BigDecimal.valueOf( 100L, 0 );
+  private static final BigDecimal SALES_INCREMENT = BigDecimal.valueOf( 0.05 );
+
   private final Map<TaxClass, TaxRate> taxRateMap;
 
   private final Collection<String> exemptGoods;
@@ -45,8 +48,9 @@ public class SaleCalculatorImpl
 
       var plainTotal = order.pricePerUnit().multiply( BigDecimal.valueOf( order.amount().amount() ) );
       var salesTax = plainTotal.multiply( BigDecimal.valueOf( rate.rate(), 0 ) )
-          .divide( BigDecimal.valueOf( 100, 0 ), RoundingMode.CEILING )
-          .setScale( 2, RoundingMode.CEILING );
+          .divide( ONE_HUNDRED, RoundingMode.CEILING )
+          .divide( SALES_INCREMENT, 0, RoundingMode.UP )
+          .multiply( SALES_INCREMENT );
       var gross = plainTotal.add( salesTax );
 
       tax = tax.add( salesTax );
