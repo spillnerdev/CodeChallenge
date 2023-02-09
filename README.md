@@ -56,6 +56,10 @@ Output 3:
 
 ## How to build the application
 
+### Prerequisites
+
++ Java JDK 17 or later
+
 ### run the application
 
 The application itself is a command line tool.  
