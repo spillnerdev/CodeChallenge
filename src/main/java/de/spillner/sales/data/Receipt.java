@@ -19,8 +19,8 @@ public record Receipt(Collection<InvoicePosition> positions, BigDecimal grossTot
   private static final String ORDER_TEMPLATE =
       """
           %s
-          Sales Taxes: %.2f
-          Total: %.2f
+          Sales Taxes: %s
+          Total: %s
           """;
 
   private static final String POSITION_FORMAT = "%d %s: %s";
@@ -32,6 +32,6 @@ public record Receipt(Collection<InvoicePosition> positions, BigDecimal grossTot
         .map( ip -> POSITION_FORMAT.formatted( ip.amount().amount(), ip.name(), DECIMAL_FORMAT.format( ip.total() ) ) )
         .collect( Collectors.joining( "\n" ) );
 
-    return String.format( ORDER_TEMPLATE, positions, totalTax, grossTotal );
+    return String.format( ORDER_TEMPLATE, positions, DECIMAL_FORMAT.format(  totalTax ), DECIMAL_FORMAT.format( grossTotal ) );
   }
 }
