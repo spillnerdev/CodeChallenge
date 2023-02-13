@@ -90,4 +90,4 @@ like `gradle :run --args=/my/path/to/file.txt`.
 ### Build a deployable jar
 
 1. run `gradle :build`. The resulting jar can be found in `./build/libs/`
-2. run the jar `$JAVA_HOME/bin/java -jar ./Order.txt`
+2. run the jar `$JAVA_HOME/bin/java -jar ./build/libs/CodeChallengeItemis-1.0-SNAPSHOT.jar ./Order.txt`
