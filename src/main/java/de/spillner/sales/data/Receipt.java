@@ -2,7 +2,9 @@ package de.spillner.sales.data;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.Collection;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 /**
@@ -13,7 +15,7 @@ import java.util.stream.Collectors;
 public record Receipt(Collection<InvoicePosition> positions, BigDecimal grossTotal, BigDecimal totalTax)
 {
 
-  private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#0.00");
+  private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#0.00", new DecimalFormatSymbols(Locale.ENGLISH) );
   private static final String ORDER_TEMPLATE =
       """
           %s
