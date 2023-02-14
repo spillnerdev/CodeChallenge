@@ -19,6 +19,7 @@ dependencies {
 
 application {
     mainClass = "de.spillner.Main"
+    applicationDefaultJvmArgs = ['-Duser.language=en']
 }
 
 jar {
@@ -29,4 +30,5 @@ jar {
 
 test {
     useJUnitPlatform()
+    jvmArgs '-Duser.language=en'
 }
